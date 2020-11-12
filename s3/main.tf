@@ -1,8 +1,9 @@
 # ------------------------------------------------------------------------------
 # s3 bucket
 # This module creates a bucket which has versioning enabled and sets a default (overrideable)
-# expiry of 30 days for the non-current object versions. All buckets should be encrypted, so this
-# is enforced.
+# expiry of 30 days for the non-current object versions. Current versions persist until explicitly
+# deleted.
+# All buckets should be encrypted, so this is enforced.
 # ------------------------------------------------------------------------------
 
 resource "aws_s3_bucket" "s3_versioned_bucket" {
