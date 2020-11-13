@@ -33,7 +33,7 @@ resource "aws_s3_bucket" "s3_versioned_bucket" {
     }
   }
 
-  tags {
+  tags = {
     name        = "${var.account}-${var.name_suffix}"
     environment = var.environment
     owner       = var.owner
