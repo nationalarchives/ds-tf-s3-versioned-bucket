@@ -6,8 +6,12 @@
 # All buckets should be encrypted, so this is enforced.
 # ------------------------------------------------------------------------------
 
+locals {
+  bucket_name = try("${var.account}-${var.name_suffix}",var.full_name)
+}
+
 resource "aws_s3_bucket" "s3_versioned_bucket" {
-  bucket = "${var.account}-${var.name_suffix}"
+  bucket = local.bucket_name
   acl    = "private"
 
   versioning {
@@ -34,7 +38,7 @@ resource "aws_s3_bucket" "s3_versioned_bucket" {
   }
 
   tags = {
-    name        = "${var.account}-${var.name_suffix}"
+    name        = local.bucket_name
     environment = var.environment
     owner       = var.owner
     created_by  = var.created_by
