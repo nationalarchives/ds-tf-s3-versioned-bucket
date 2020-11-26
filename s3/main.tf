@@ -39,8 +39,8 @@ resource "aws_s3_bucket" "s3_versioned_bucket" {
       for_each = var.transitions
 
       content {
-        days = transition.value['transition_days']
-        storage_class = transition.value['transition_type']
+        days = transition.value.transition_days
+        storage_class = transition.value.transition_type
       }
     }
   }
