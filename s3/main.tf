@@ -35,6 +35,10 @@ resource "aws_s3_bucket" "s3_versioned_bucket" {
     noncurrent_version_expiration {
       days = var.noncurrent_version_expiration
     }
+    transition {
+      days = var.ia_transition
+      storage_class = "STANDARD_IA"
+    }
   }
 
   tags = {
