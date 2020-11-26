@@ -12,3 +12,4 @@ variable "full_name" {}
 variable "noncurrent_version_expiration" {
   default = "30"
 }
+variable "transitions" {}
