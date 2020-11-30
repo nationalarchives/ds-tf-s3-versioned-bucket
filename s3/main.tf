@@ -12,7 +12,6 @@ locals {
 
 resource "aws_s3_bucket" "s3_versioned_bucket" {
   bucket = local.bucket_name
-  acl    = "private"
 
   versioning {
     enabled = true
