@@ -6,9 +6,12 @@
 # All buckets should be encrypted, so this is enforced.
 # ------------------------------------------------------------------------------
 
+locals {
+  bucket_name = try("${var.account}-${var.name_suffix}",var.full_name)
+}
+
 resource "aws_s3_bucket" "s3_versioned_bucket" {
-  bucket = "${var.account}-${var.name_suffix}"
-  acl    = "private"
+  bucket = local.bucket_name
 
   versioning {
     enabled = true
@@ -31,10 +34,18 @@ resource "aws_s3_bucket" "s3_versioned_bucket" {
     noncurrent_version_expiration {
       days = var.noncurrent_version_expiration
     }
+    dynamic "transition" {
+      for_each = var.transitions
+
+      content {
+        days = transition.value.transition_days
+        storage_class = transition.value.transition_type
+      }
+    }
   }
 
-  tags {
-    name        = "${var.account}-${var.name_suffix}"
+  tags = {
+    name        = local.bucket_name
     environment = var.environment
     owner       = var.owner
     created_by  = var.created_by
