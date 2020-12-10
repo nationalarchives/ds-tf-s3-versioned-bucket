@@ -16,3 +16,6 @@ This module creates an S3 versioned bucket. It implements our standard tagging a
 *noncurrent_version_expiration*: (Default: 30) the number of days after which to expire non-current versions of objects.
  
 *transitions*: (Default: none) a list of maps with values transition_days (number of days to transition after) and transition_type (tier to transition to - eg STANDARD_IA, GLACIER etc)
+
+## Outputs
+*bucket*: The name of the bucket created
