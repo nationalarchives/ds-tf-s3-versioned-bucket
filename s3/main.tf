@@ -7,47 +7,42 @@
 # ------------------------------------------------------------------------------
 
 locals {
-  bucket_name = try("${var.account}-${var.name_suffix}",var.full_name)
+    bucket_name = try("${var.account}-${var.name_suffix}", var.full_name)
 }
 
 resource "aws_s3_bucket" "s3_versioned_bucket" {
-  bucket = local.bucket_name
+    bucket = local.bucket_name
 
-  versioning {
-    enabled = true
-  }
-
-  lifecycle {
-    prevent_destroy = true
-  }
-
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
+    versioning {
+        enabled = true
     }
-  }
 
-  lifecycle_rule {
-    enabled = true
-    noncurrent_version_expiration {
-      days = var.noncurrent_version_expiration
+    lifecycle {
+        prevent_destroy = true
     }
-    dynamic "transition" {
-      for_each = var.transitions
 
-      content {
-        days = transition.value.transition_days
-        storage_class = transition.value.transition_type
-      }
+    server_side_encryption_configuration {
+        rule {
+            apply_server_side_encryption_by_default {
+                sse_algorithm = "AES256"
+            }
+        }
     }
-  }
 
-  tags = {
-    name        = local.bucket_name
-    environment = var.environment
-    owner       = var.owner
-    created_by  = var.created_by
-  }
+    lifecycle_rule {
+        enabled = true
+        noncurrent_version_expiration {
+            days = var.noncurrent_version_expiration
+        }
+        dynamic "transition" {
+            for_each = var.transitions
+
+            content {
+                days          = transition.value.transition_days
+                storage_class = transition.value.transition_type
+            }
+        }
+    }
+
+    tags = var.tags
 }

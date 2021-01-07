@@ -1,7 +1,4 @@
 variable "account" {}
-variable "environment" {}
-variable "owner" {}
-variable "created_by" {}
 
 # The following two variables are mutually exclusive. Unless there is a compelling reason otherwise, use name_suffix
 # When a name_suffix is provided, this module will enforce a naming convention of <account_name>-<name_suffix>
@@ -13,3 +10,5 @@ variable "noncurrent_version_expiration" {
   default = "30"
 }
 variable "transitions" {}
+
+variable "tags" {}
