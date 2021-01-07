@@ -44,5 +44,7 @@ resource "aws_s3_bucket" "s3_versioned_bucket" {
         }
     }
 
-    tags = var.tags
+    tags = merge(var.tags, {
+        name = local.bucket_name
+    })
 }
