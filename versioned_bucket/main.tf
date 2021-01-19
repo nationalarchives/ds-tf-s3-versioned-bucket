@@ -48,3 +48,69 @@ resource "aws_s3_bucket" "s3_versioned_bucket" {
         name = local.bucket_name
     })
 }
+
+resource "aws_iam_policy" "read_policy" {
+  name = "${aws_s3_bucket.s3_versioned_bucket.bucket}-read"
+  description = "Read-only access to ${aws_s3_bucket.s3_versioned_bucket.bucket}"
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetBucketLocation",
+        "s3:ListBucket"
+      ],
+     "Resource": [
+        "arn:aws:s3:::${aws_s3_bucket.s3_versioned_bucket.bucket}"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Resource": [
+         "arn:aws:s3:::${aws_s3_bucket.s3_versioned_bucket.bucket}/*"
+      ]
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_policy" "write_policy" {
+  name = "${aws_s3_bucket.s3_versioned_bucket.bucket}-write"
+  description = "Read-Write access to ${aws_s3_bucket.s3_versioned_bucket.bucket}"
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetBucketLocation",
+        "s3:ListBucket"
+      ],
+     "Resource": [
+        "arn:aws:s3:::${aws_s3_bucket.s3_versioned_bucket.bucket}"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+                "s3:PutObject",
+                "s3:PutObjectAcl",
+                "s3:GetObject",
+                "s3:GetObjectAcl",
+                "s3:DeleteObject"
+      ],
+      "Resource": [
+         "arn:aws:s3:::${aws_s3_bucket.s3_versioned_bucket.bucket}/*"
+      ]
+    }
+  ]
+}
+EOF
+}
