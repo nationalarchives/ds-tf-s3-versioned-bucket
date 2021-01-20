@@ -52,11 +52,11 @@ resource "aws_s3_bucket" "s3_versioned_bucket" {
 resource "aws_iam_policy" "read_policy" {
   name = "${aws_s3_bucket.s3_versioned_bucket.bucket}-read"
   description = "Read-only access to ${aws_s3_bucket.s3_versioned_bucket.bucket}"
-  policy = file("${path.module}/read_policy.json")
+  policy = templatefile("${path.module}/read_policy.json", { bucket = aws_s3_bucket.s3_versioned_bucket.arn})
 }
 
 resource "aws_iam_policy" "write_policy" {
   name = "${aws_s3_bucket.s3_versioned_bucket.bucket}-write"
   description = "Read-Write access to ${aws_s3_bucket.s3_versioned_bucket.bucket}"
-  policy = file("${path.module}/write_policy.json")
+  policy = templatefile("${path.module}/write_policy.json", { bucket = aws_s3_bucket.s3_versioned_bucket.arn})
 }
