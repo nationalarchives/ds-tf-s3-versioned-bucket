@@ -60,3 +60,10 @@ resource "aws_iam_policy" "write_policy" {
   description = "Read-Write access to ${aws_s3_bucket.s3_versioned_bucket.bucket}"
   policy = templatefile("${path.module}/write_policy.json", { bucket = aws_s3_bucket.s3_versioned_bucket.arn})
 }
+
+resource "aws_s3_bucket_policy" "custom_policy" {
+    count = length(var.bucket_policy)
+
+    bucket         = aws_s3_bucket.s3_versioned_bucket.bucket
+    policy         = var.bucket_policy[count.index]["policy"]
+}
