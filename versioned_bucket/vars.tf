@@ -13,4 +13,6 @@ variable "transitions" {}
 
 variable "tags" {}
 
-variable "bucket_policy" {}
+variable "bucket_policy" {
+  default = []
+}
