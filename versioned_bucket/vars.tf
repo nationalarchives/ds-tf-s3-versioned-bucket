@@ -12,3 +12,7 @@ variable "noncurrent_version_expiration" {
 variable "transitions" {}
 
 variable "tags" {}
+
+variable "bucket_policy" {
+  default = []
+}
