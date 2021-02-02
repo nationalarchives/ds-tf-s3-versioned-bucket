@@ -18,5 +18,6 @@ This module creates an S3 versioned bucket. It implements our standard tagging a
  
 *transitions*: (Default: none) a list of maps with values transition_days (number of days to transition after) and transition_type (tier to transition to - eg STANDARD_IA, GLACIER etc)
 
+*bucket_policy*: (Default: none) a bucket policy to apply to the bucket. Usually a bucket policy is not needed, so don't supply one unless it's needed.
 ### Outputs
 *bucket*: The name of the bucket created
